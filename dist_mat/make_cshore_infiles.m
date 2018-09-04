@@ -7,7 +7,7 @@ if iclean ;[j1,j1,j1]=rmdir('./work/infiles','s');clear j1 iclean;end
 
 % Start user inputs
 inp.names       = {'Reach1' 'Reach3'}; 
-inp.height_dune = {{10 11 12} {9.9 10.5}};
+inp.height_dune = {{10 12} {9.9 10.5}};
 inp.width_dune  = {10 {12 13}};
 inp.width_berm  = {{100 150} 120};
 inp.width_upland  = {200 220};
@@ -15,7 +15,7 @@ inp.height_upland  = {6 7};
 inp.slope_dune  = {.25 .25};
 inp.height_berm  = {4 5};
 inp.slope_foreshore  = {.2 .2};
-cshore.dx = 2; % default 1
+cshore.dx = 1; % default 1
 cshore.gamma = .7; % default .7
 cshore.d50 = {.3 .4};
 cshore.effb = .002; %default .002 

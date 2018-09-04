@@ -28,8 +28,8 @@ tide_dict = {}
 # ~~~~~~~~~~~ BEGIN USER INPUT ~~~~~~~~~~~
 profile_dict['names'] 		= ['Reach1', 'Reach3']					#name of reaches specified as string (e.g. 'Reach1', 'Reach3', ...)
 profile_dict['height_dune'] 	= [[10, 12], [9.9, 10.5]]  			#dune height (ft.)
-profile_dict['width_dune'] 	= [[10] , [12]]							#dune width (ft.)
-profile_dict['width_berm'] 	= [[100], [160]]						#berm width (ft.)
+profile_dict['width_dune'] 	= [[10] , [12, 13]]							#dune width (ft.)
+profile_dict['width_berm'] 	= [[100, 150], [120]]						#berm width (ft.)
 profile_dict['width_upland'] 	= [200, 220]						#upland width (ft.)
 profile_dict['height_upland'] 	= [6, 7]							#upland elevation (ft.)
 profile_dict['slope_dune'] 	= [0.25, 0.25]							#dune slope

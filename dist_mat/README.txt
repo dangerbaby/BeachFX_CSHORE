@@ -15,8 +15,7 @@
     profile named Reach1 has an existing dune of 10 ft, and the
     options to build it to 11 and 12 are under consideration.  Reach2
     has a height of 9.5ft with the option to build to 10.5.  These
-    options would be represented in the inp block in
-    first_make_infiles as
+    options would be represented in the inp block in make_infiles.m as
 
 inp.names       = {'Reach1' 'Reach2'}; 
 inp.height_dune = {{10 11 12} {9.9 10.5}};
@@ -76,18 +75,18 @@ tides.phases = [1 3]; % 1=max,2=falling,3=min,4=rising
 .     
 .
 
-3) Execute first_make_cshore_infiles: Makes the infile dir structure and
+3) Execute make_cshore_infiles: Makes the infile dir structure and
 populates it with the CSHORE infiles.  You can plot_all_profiles at
 this point if you wish.
 
 
-4) Execute second_run_cshore: All of the CSHORE infiles are discovered and
+4) Execute run_cshore: All of the CSHORE infiles are discovered and
 run sequentially.  The pertinent output results are saved in a
 outfiles directory, that is created automatically.  The optional
 plot_cshore_results script can be used at this point to create a plot
 of pre and post profiles for each run.
 
-4) Execute third_make_dat file: All CSHORE results are discovered and a
+4) Execute make_dat file: All CSHORE results are discovered and a
 separate dat file designed for use with BeachFX is created for each
 reach
 

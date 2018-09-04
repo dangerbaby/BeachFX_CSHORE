@@ -14,7 +14,8 @@ for i = 1:length(in.header)
   fprintf(fid,'%s \n',cell2mat(in.header(i)));
 end
 fprintf(fid,'%-8i                                  ->ILINE\n',in.iline);
-fprintf(fid,'%-8i                                  ->IPROFL\n',in.iprofl);
+%fprintf(fid,'%-8i                                  ->IPROFL\n',in.iprofl);
+fprintf(fid,'%-8s                                  ->IPROFL\n',num2str(in.iprofl));
 if floor(in.iprofl)==1
   fprintf(fid,'%-8i                                  ->ISEDAV\n',in.isedav);
 end
