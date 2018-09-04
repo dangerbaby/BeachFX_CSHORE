@@ -1,0 +1,4 @@
+*.pyc
+*~
+*.infile
+*.mat
