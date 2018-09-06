@@ -100,7 +100,7 @@ class cshoreIO(object):
 							  'Reach : %s  Profile : %s  Storm:  %s'  %(meta_dict['Reach'], meta_dict['Profile'], meta_dict['Storm']),
 							  '------------------------------------------------------------'],			# the three lines of the header for the input text file
 				   'iline': 1,  # single line
-				   'iprofl': 1.1,  # 0 = no morph, 1 = run morph
+				   'iprofl': 1,  # 0 = no morph, 1 = run morph
 				   'isedav': 0,  # 0 = unlimited sand, 1 = hard bottom
 				   'iperm': 0,  # 0 = no permeability, 1 = permeable
 				   'iover': 1,  # 0 = no overtopping , 1 = include overtopping
@@ -118,7 +118,6 @@ class cshoreIO(object):
 				   'gamma': cshore_dict['gamma'], # shallow water ratio of wave height to water depth (wave breaking parameter?)
 				   'sporo': 0.4,  # sediment porosity
 				   'sg': 2.65,  # specific gravity of the sand grains (I changed the order so I could use this in the fall velocity calculator)
-				   'd50' : cshore_dict['d50'], # d_50 in mm
 				   'temp' : 20,	#water temperature (deg. C)
 				   'salin': 0,	#salinity (ppt)
 
@@ -140,9 +139,9 @@ class cshoreIO(object):
 				   'ilab': 0,  # controls the boundary condition timing. Don't change - supposed to be 0!!!
 				   'fw': 0.015}  # bottom friction factor
 
+		in_dict['d50'] = BC_dict['d50']		#d50 in mm
 		# in_dict['wf'] = dirtLib.vfall(in_dict['d50'], BC_dict['temp'], BC_dict['salin'], in_dict['sg'])  # fall velocity of sand grain
-		in_dict['wf'] = vf.init(in_dict['d50'], in_dict['temp'], in_dict['salin'])	  # note: drs added this. 
-
+		in_dict['wf'] = vf.init(in_dict['d50'], in_dict['temp'], in_dict['salin'])	  # note: drs added this; fall velocity of sand grain 
 		in_dict['timebc_wave'] = BC_dict['timebc_wave']
 		in_dict['timebc_surg'] = in_dict['timebc_wave']  # what is this?  Why is it a separate variable?
 		in_dict['nwave'] = len(in_dict['timebc_wave'])  # what is this? this is just the number of time steps I have?!?!?

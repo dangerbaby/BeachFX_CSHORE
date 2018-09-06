@@ -28,7 +28,7 @@ class MakeInfiles(object):
 
 
 	def make_infiles(self):
-
+		count = 0
 		for reach in self.profiles.keys():				#loop through reach
 			os.chdir(os.path.join(self.meta_dict['work_directory'], 'infiles', reach))		#navigate to infile directory
 			for storm in self.storms.keys():			#loop through storms
@@ -47,14 +47,14 @@ class MakeInfiles(object):
 					BC_dict['zb']			= self.profiles[reach][profile]['z']
 					BC_dict['zb_p']			= np.zeros(len(BC_dict['x']))		#np including permeable layer
 					BC_dict['fw']			= np.zeros(len(BC_dict['x']))		#not including variable bed friction. assumed constant in cshore
-
+					BC_dict['d50']			= self.profiles[reach][profile]['d50']
 					self.meta_dict['Reach'] = reach 							#adding infomation to meta_dict
 					self.meta_dict['Profile'] = profile
 					self.meta_dict['Storm'] = storm
 					fname = reach + '_' + profile + '-' + storm + '.infile' 	#the infile name
 
 					csio.make_CSHORE_infile(fname, BC_dict, self.meta_dict, self.cshore_dict) 	#making the infile
-
+			count += 1
 
 
 

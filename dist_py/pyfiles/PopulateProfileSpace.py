@@ -14,7 +14,7 @@ class PopulateProfileSpace(object):
 		for i in os.listdir(self.meta_dict['work_directory']): 	#loop through work directory to find submerged profile
 			if reach in i:										#reach name must be in submerged profile name
 				self.submerged_file = i 						#setting saving submerged profile
-		if not self.submerged_file:								#else, raise error (get mad)
+		if not self.submerged_file:								#else, raise error
 			raise ValueError("Submerged profile not found. Naming convention: 'ReachName_submerged_profile.txt")
 
 		self.setup_profile_max_min2(reach_num, reach)			#converting feet (from input) to meters (for cshore)
@@ -106,7 +106,7 @@ class PopulateProfileSpace(object):
 					new_x, new_z = self.reverse_l_r(new_x, new_z)		#flipping arrays
 					self.cshore_profiles['%s'%reach][profile_name]['x'] = new_x		#storing in dictionaries
 					self.cshore_profiles['%s'%reach][profile_name]['z'] = new_z
-
+					self.cshore_profiles['%s'%reach][profile_name]['d50'] = self.profile_dict['d50'][reach_num]
 
 
 

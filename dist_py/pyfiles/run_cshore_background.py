@@ -91,8 +91,8 @@ class run_cshore_background(object):
 
 
 	def run_cshore_win_serial(self, reach):
-                #first find the os
-                ilinux=platform.system()=='Linux'
+		#first find the os
+		ilinux=platform.system()=='Linux'
 
 		#~~~ windows - serial ~~~
 		"""
@@ -100,21 +100,20 @@ class run_cshore_background(object):
 		"""
 
 		infiles = os.listdir('.')						     #read files in directory
-                                                                                        
 		infiles = sorted([f for f in infiles if f.endswith('.infile')])		#sorting the files that end with ".infile"
 
 		for infile in infiles:												#loop through infiles
 			os.rename(infile, 'infile')						       		#rename the file we're working with here to "infile"
 
-                        if ilinux:
-                                os.system(os.path.join(self.meta_dict['exe_directory'], 'CSHORE_USACE_LINUX.out'))	#call on cshore
-                        else:
-                                os.system(os.path.join(self.meta_dict['exe_directory'], 'cshore_usace_win.out'))	#call on cshore                        
+			if ilinux:
+				os.system(os.path.join(self.meta_dict['exe_directory'], 'CSHORE_USACE_LINUX.out'))	#call on cshore
+			else:
+				os.system(os.path.join(self.meta_dict['exe_directory'], 'cshore_usace_win.out'))	#call on cshore                        
 
-                        print('\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')	#space seperator
-                        params, bc, veg, hydro, sed, morpho = csio.load_CSHORE_results(os.getcwd())	#reading cshore results
-                        self.write_h5file(infile, morpho, hydro)						#writing what is needed to the h5 file
-                        os.rename('infile', infile)								#renaming the infile to it's original name.
+			print('\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')	#space seperator
+			params, bc, veg, hydro, sed, morpho = csio.load_CSHORE_results(os.getcwd())	#reading cshore results
+			self.write_h5file(infile, morpho, hydro)						#writing what is needed to the h5 file
+			os.rename('infile', infile)								#renaming the infile to it's original name.
 
 
 	def run_cshore_win_parallel(self, reach):
