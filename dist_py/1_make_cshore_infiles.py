@@ -35,7 +35,7 @@ profile_dict['height_upland'] 	= [6, 7]							#upland elevation (ft.)
 profile_dict['slope_dune'] 	= [0.25, 0.25]							#dune slope
 profile_dict['height_berm'] 	= [4, 5]							#berm elevation (ft.)
 profile_dict['slope_foreshore'] 	= [0.2, 0.2]					#foreshore slope
-profile_dict['d50']	= [0.3, 0.2]									#d_50 (mm.)
+profile_dict['d50']	= [0.3, 0.4]									#d_50 (mm.)
 
 
 cshore_dict['dx'] 	= 1					#CSHORE grid spacing (m)
