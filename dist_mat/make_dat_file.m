@@ -3,8 +3,20 @@ clear all
 dirnames = dir('./work/outfiles');
 tic;
 for i = 3:length(dirnames)
-  fid = fopen(['./work/outfiles/',dirnames(i).name,'/',dirnames(i).name,'.dat'],'w');
+  %first check if the results are in raw OBPROF format
+  obprofnames = dir(['./work/outfiles/',dirnames(i).name,'/*.OBPROF']);
+  for j = 1:length(obprofnames)
+    obprofname = [obprofnames(j).folder,'/',obprofnames(j).name(1:length(obprofnames(j).name)-7)];
+    load(['work/infiles/',dirnames(i).name,'/',obprofnames(j).name(1:length(obprofnames(j).name)-7),'.mat'])
+    results = load_results_bfx(obprofname);
+    movefile([obprofname,'.OBPROF'],[obprofname,'.OBPROF.used'])
+    movefile([obprofname,'.OSETUP'],[obprofname,'.OSETUP.used'])
+    save([obprofname,'.mat'],'results','in')
+  end
+  
+  
   fnames = dir(['./work/outfiles/',dirnames(i).name,'/*.mat']);
+  fid = fopen(['./work/outfiles/',dirnames(i).name,'/',dirnames(i).name,'.dat'],'w');  
   for j = 1:1:length(fnames)
     disp(['working on /',dirnames(i).name,'/',fnames(j).name])
     load(['./work/outfiles/',dirnames(i).name,'/',fnames(j).name]);

@@ -1,0 +1,27 @@
+#!/bin/bash
+#
+#PBS -N cshore
+#PBS -q debug
+#PBS -A ERDCV00898M20
+#PBS -l select=3:ncpus=44:mpiprocs=44
+#PBS -l walltime=0:02:00
+#PBS -j oe
+#PBS -o cshore.oe
+#PBS -l ccm=1
+#
+umask 007
+module switch PrgEnv-cray/6.0.4 PrgEnv-gnu
+#
+#
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#      START OF SHEL
+#
+#
+# ---------------------------------
+#
+cd $PBS_O_WORKDIR
+echo $PWD
+ccmrun ./run_all_infiles_hpc > run_all_output.txt
+# ----------------------------------------------------------------
+# end submit script
+# -------------------------------------------------------------

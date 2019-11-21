@@ -1,0 +1,69 @@
+#!/bin/bash
+#
+numproc=132 #132 = 3 nodes of 44 cores
+echo ---------------Start run_all_infiles_hpc script---------------
+start=$SECONDS
+if [[ $HOSTNAME == *"onyx"* ]]; then
+    echo "Initializing for Onyx"
+    module load gcc
+fi
+for d1 in work/infiles/* ; do
+    echo crawling through "$d1", looking for infiles
+    # First make the array of infile names
+    infilenames=()
+    for file in $d1/*.infile; do
+	infilenames=("${infilenames[@]}" "$file")
+    done
+    # Set number of infiles avail in the directory
+    numinfiles=${#infilenames[@]}
+    echo $numinfiles files found in $d1
+    # run each infile 
+    for ((i=0; i<=((numinfiles-1)); i+=numproc)); do
+	#for ((j=i; j<=((i+numproc-1)); j+=1)); do
+	for ((j=i; j<=(( i+numproc-1 < numinfiles-1 ? i+numproc-1 : numinfiles-1 )); j+=1)); do
+	    ./executables/CSHORE_USACE_LINUX.out ${infilenames[$j]%.infile}>/dev/null&
+	    echo $j just ran ${infilenames[$j]%.infile} with PID $!
+	    pids=("${pids[@]}" $!)
+	done
+	echo all pids ${pids[@]} pids with last pid ${pids[-1]} 
+	echo Waiting for the batch of ${#pids[@]} infiles to run
+	tail --pid=${pids[-1]} -f /dev/null #this waits until the last PID is completed
+	unset pids
+    done
+done
+
+sleep 1
+#make sure that work/outfiles exists
+mkdir -p work/outfiles
+for d1 in work/infiles/* ; do
+    #make sure that reach directory exists
+    mkdir -p work/outfiles/$(basename $d1) 
+    cp $d1/*.OBPROF work/outfiles/$(basename $d1)
+    cp $d1/*.OSETUP work/outfiles/$(basename $d1)
+done
+tar -czf from_hpc.tgz work/outfiles 
+duration=$(( SECONDS - start ))
+echo $duration seconds runtime 
+echo ---------------End run_all_infiles_hpc script---------------
+
+
+
+
+
+
+# old crappy code
+# for infilename in "${infilenames[@]}"
+# do
+#     echo $infilename
+# done
+#    echo ${infilenames[1]}
+#    echo ${infilenames[3]}
+#allinfiles=$d1/*.infile
+#    echo $allinfiles
+#     for d2 in $d1/*.infile ; do
+# 	echo found "$d2", and running as input to CSHORE
+# #	./executables/CSHORE_USACE_LINUX.out ${d2%.infile}
+# #	./executables/CSHORE_USACE_ONYX.out ${d2%.infile} 
+# 	echo 
+#     done
+
