@@ -18,11 +18,9 @@ submit the job:
 user@onyx09:~> qsub submit_script_onyx.pbs
 
 At completion, the file run_all_output.txt will show the results of
-the run and from_hpc.tgz is created.  Copy from_tgz.tgz back to the
-local machine.  UNtar and unzip the results, being certian that the
-outfiles directory is placed alongside the infiles directory used in
-step 1.
-
+the run and from_hpc.tgz is created.  Copy from_hpc.tgz back to the
+local machine being certian that the from_hpc.tgz is in the same
+directory as the to_hpc.tgz file
 
 3) Execute make_dat file: All CSHORE results are discovered and a
 separate dat file designed for use with BeachFX is created for each
