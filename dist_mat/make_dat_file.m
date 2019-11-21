@@ -1,7 +1,14 @@
 
 clear all
-dirnames = dir('./work/outfiles');
+
 tic;
+if exist('from_hpc.tgz','file')==2
+  disp('untaring HPC results')
+  untar('from_hpc.tgz')
+  movefile('from_hpc.tgz','from_hpc.tgz.used')
+end
+
+dirnames = dir('./work/outfiles');
 for i = 3:length(dirnames)
   %first check if the results are in raw OBPROF format
   obprofnames = dir(['./work/outfiles/',dirnames(i).name,'/*.OBPROF']);
