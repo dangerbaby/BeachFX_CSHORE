@@ -13,7 +13,7 @@ meta_dict = {}														#setting up dictionaries
 meta_dict['work_directory'] = os.path.join(current_path, "work")
 meta_dict['infile_directory'] = os.path.join(meta_dict['work_directory'], 'infiles')
 meta_dict['outfile_directory'] = os.path.join(meta_dict['work_directory'], 'outfiles')
-meta_dict['exe_directory'] = os.path.join(current_path, "cshore_executables")
+meta_dict['exe_directory'] = os.path.join(current_path, "executables")
 
 reaches = []
 if not reaches:													#if the reaches list is blank, 

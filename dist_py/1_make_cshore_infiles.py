@@ -80,9 +80,9 @@ print('\nWriting %s CSHORE infiles' %tot_num)				#print number of profile/storm 
 mkInfiles.init(meta_dict, cshore_dict, profiles, storms)		#making infiles for each profile/storm combination
 
 os.chdir(current_path)                                                  #making the hpc files  
-tar = tarfile.open("to_hpc.tgz", "w:gz")
+tar = tarfile.open("to_hpc.tgz", "w:gz", dereference=True)
 tar.add("run_all_infiles_hpc")
 tar.add("work/infiles")
-tar.add("cshore_executables")
+tar.add("executables")
 tar.add("submit_script_onyx.pbs")
 tar.close()
