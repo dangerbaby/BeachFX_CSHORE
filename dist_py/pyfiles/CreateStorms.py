@@ -76,6 +76,7 @@ class CreateStorms(object):
 		surge = data[:,3]					#surge elevation
 
 		date = [datetime.datetime.strptime(str(int(i)), "%Y%m%d%H%M") for i in date]	#getting date/time in "python" format
+
 		dt = self.dt_calc(date)					#calculating time step (assumes constant time step; seconds)
 		time = np.arange(0, len(hmo)*dt, dt)	#calculating time array	(seconds)
 

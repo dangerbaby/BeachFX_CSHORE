@@ -30,30 +30,30 @@ for i = 3:length(dirnames)
 
     %write Initial Profile
     x = m2ft(flipud((in.x_offset-results.x)));
-    x_off2 = x(1); % in ft!
+    x_off2 = x(1); % in ft so that we have 0 at first node!
     x = x-x_off2;
     z = m2ft(flipud((results.initial_profile)));
     fprintf(fid,'Initial Profile: %s\n',in.magic_text);
     fprintf(fid,'%d\n',length(z));
-    fprintf(fid,'%8.4f  %8.4f\n',[x z]');
+    fprintf(fid,'%8.4f %8.4f\n',[x z]');
 
     %write Final Profile
     z = m2ft(flipud((results.final_profile)));
     fprintf(fid,'Final Profile: %s\n',in.magic_text);
     fprintf(fid,'%d\n',length(z));
-    fprintf(fid,'%8.4f  %8.4f\n',[x z]');
+    fprintf(fid,'%8.4f %8.4f\n',[x z]');
 
     %write Max Prof Elev    
     z = m2ft(flipud((results.max_profile_elev)));
     fprintf(fid,'Max Prof Elev: %s\n',in.magic_text);
     fprintf(fid,'%d\n',length(z));
-    fprintf(fid,'%8.4f  %8.4f\n',[x z]');
+    fprintf(fid,'%8.4f %8.4f\n',[x z]');
 
     %write Min Prof Elev    
     z = m2ft(flipud((results.min_profile_elev)));
     fprintf(fid,'Min Prof Elev: %s\n',in.magic_text);
     fprintf(fid,'%d\n',length(z));
-    fprintf(fid,'%8.4f  %8.4f\n',[x z]');
+    fprintf(fid,'%8.4f %8.4f\n',[x z]');
     
     %write max Hs
     ind = ~isnan(results.max_hrms);
@@ -62,7 +62,7 @@ for i = 3:length(dirnames)
     x = x-x_off2;
     fprintf(fid,'Max Wave Ht: %s\n',in.magic_text); 
     fprintf(fid,'%d\n',length(Hs));
-    fprintf(fid,'%8.4f  %8.4f\n',[x Hs]');
+    fprintf(fid,'%8.4f %8.4f\n',[x Hs]');
     
     
     %write max water elevation
@@ -72,7 +72,7 @@ for i = 3:length(dirnames)
     x = x-x_off2;
     fprintf(fid,'Max Water Elev+Setup: %s\n',in.magic_text); 
     fprintf(fid,'%d\n',length(eta));
-    fprintf(fid,'%8.4f  %8.4f\n',[x eta]');
+    fprintf(fid,'%8.4f %8.4f\n',[x eta]');
     
   
   

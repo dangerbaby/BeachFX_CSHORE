@@ -104,7 +104,8 @@ class PopulateProfileSpace(object):
 					new_x = np.concatenate((temp_x, x_sub_temp))		#appending things to form one x and z-array
 					new_z = np.concatenate((temp_z, z_sub))
 					new_x, new_z = self.reverse_l_r(new_x, new_z)		#flipping arrays
-					self.cshore_profiles['%s'%reach][profile_name]['x'] = new_x		#storing in dictionaries
+                                        #print(new_x)
+                                        self.cshore_profiles['%s'%reach][profile_name]['x'] = new_x		#storing in dictionaries
 					self.cshore_profiles['%s'%reach][profile_name]['z'] = new_z
 					self.cshore_profiles['%s'%reach][profile_name]['d50'] = self.profile_dict['d50'][reach_num]
 

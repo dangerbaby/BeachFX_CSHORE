@@ -32,3 +32,4 @@ for reach in reaches:												#loop through reaches
 
 	infiles = os.listdir(os.getcwd())
 	rcb.init(meta_dict, reach)
+        

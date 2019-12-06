@@ -34,14 +34,14 @@ class MakeInfiles(object):
 			for storm in self.storms.keys():			#loop through storms
 				for profile in self.profiles[reach].keys():		#loop through profiles
 
-					BC_dict = {}												#creating boundary condtion dictionary
+					BC_dict = {}								#creating boundary condtion dictionary
 					BC_dict['timebc_wave'] 	= self.storms[storm]['time']
 					BC_dict['Hs']			= self.storms[storm]['Hmo']
-					BC_dict['Hrms']			= self.storms[storm]['Hrms']		#note: I updated cshoreIO.py such that only 'Hrms' is read
+					BC_dict['Hrms']			= self.storms[storm]['Hrms']   #note: I updated cshoreIO.py such that only 'Hrms' is read
 					BC_dict['Tp']			= self.storms[storm]['tp']
 					BC_dict['Wsetup']		= np.zeros(len(BC_dict['Tp']))		#not including wave setup
 					BC_dict['swlbc']		= self.storms[storm]['surge']
-					BC_dict['angle']		= np.zeros(len(BC_dict['Tp']))		#not including wave angle (everything is shore normal)
+					BC_dict['angle']		= np.zeros(len(BC_dict['Tp']))	   #not including wave angle (everything is shore normal)
 					BC_dict['x']			= self.profiles[reach][profile]['x']
 					BC_dict['x_p']			= np.zeros(len(BC_dict['x']))		#not including permeable layer
 					BC_dict['zb']			= self.profiles[reach][profile]['z']

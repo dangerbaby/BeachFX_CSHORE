@@ -100,7 +100,7 @@ class cshoreIO(object):
 							  'Reach : %s  Profile : %s  Storm:  %s'  %(meta_dict['Reach'], meta_dict['Profile'], meta_dict['Storm']),
 							  '------------------------------------------------------------'],			# the three lines of the header for the input text file
 				   'iline': 1,  # single line
-				   'iprofl': 1,  # 0 = no morph, 1 = run morph
+				   'iprofl': 1.1,  # 0 = no morph, 1 = run morph
 				   'isedav': 0,  # 0 = unlimited sand, 1 = hard bottom
 				   'iperm': 0,  # 0 = no permeability, 1 = permeable
 				   'iover': 1,  # 0 = no overtopping , 1 = include overtopping
@@ -156,7 +156,7 @@ class cshoreIO(object):
 
 		fid.write('%-8i                                  ->ILINE\n' % in_dict['iline'])
 		#fid.write('%-8i                                  ->IPROFL\n' % in_dict['iprofl'])
-		fid.write('%s                                        ->IPROFL\n' % in_dict['iprofl'])
+		fid.write('%s                                       ->IPROFL\n' % in_dict['iprofl'])
 
 
 		#if in_dict['iprofl'] == 1:
@@ -225,15 +225,25 @@ class cshoreIO(object):
 			for ii in range(0, len(BC_dict['swlbc'])):
 				fid.write('%11.2f%11.4f\n' %(in_dict['timebc_surg'][ii], BC_dict['swlbc'][ii]))
 
-		fid.write('%-8i                             ->NBINP \n' % len(BC_dict['x']))
+
+                #interp zb to cshore grid to remain consistent with matlab scripting bdj 2019-12-05 
+                x = BC_dict['x']
+                x = np.arange(x[0], x[-1], cshore_dict['dx']).tolist()
+                zb = np.interp(x,BC_dict['x'],BC_dict['zb'])
+                # now writethe bottom position
+                #fid.write('%-8i                             ->NBINP \n' % len(BC_dict['x'])) superceded bdj 2019-12-05 
+                fid.write('%-8i                             ->NBINP \n' % len(x))
 
 		if in_dict['iperm'] == 1 or in_dict['isedav'] >= 1:
 			fid.write('%-8i                             ->NPINP \n' % len(BC_dict['x_p'])) # this parameter is not specified in Brad's run_model...  This will crash if these conditions are met
 		else:
 			pass
 
-		for ii in range(0, len(BC_dict['x'])):
-			fid.write('%11.4f%11.4f%11.4f\n' % (BC_dict['x'][ii], BC_dict['zb'][ii], in_dict['fw']))
+                
+                #for ii in range(0, len(BC_dict['x'])):  superceded bdj 2019-12-05 
+		#	fid.write('%11.4f%11.4f%11.4f\n' % (BC_dict['x'][ii], BC_dict['zb'][ii], in_dict['fw']))
+                for ii in range(0, len(x)):
+			fid.write('%11.4f%11.4f%11.4f\n' % (x[ii],zb[ii], in_dict['fw']))
 
 		if in_dict['iperm'] == 1 or in_dict['isedav'] >= 1:
 			for ii in range(0, len(BC_dict['x_p'])):

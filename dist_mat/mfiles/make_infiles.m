@@ -55,9 +55,10 @@ for i = 1:length(reaches)
                        in.magic_text
                        '------------------------------------------------------------'};
           
-          ftime = (storms(k).date(end)-storms(k).date(1))*24*3600;      % [sec] final time, dictates model duration
-          dt = 1*3600;         % time interval in seconds for wave and water level conditions
-          in.timebc_wave = [0:dt:ftime];
+          % ftime = (storms(k).date(end)-storms(k).date(1))*24*3600;      % [sec] final time, dictates model duration
+          % dt = 1*3600;         % time interval in seconds for wave and water level conditions
+          % in.timebc_wave = [0:dt:ftime];
+          in.timebc_wave = (storms(k).date-storms(k).date(1))*24*3600;
           in.datebc = storms(k).date(1)+in.timebc_wave/(24*3600); 
           in.timebc_surg = in.timebc_wave;
           in.nwave = length(in.timebc_wave); in.nsurg = in.nwave;dum = ones(1,in.nwave);

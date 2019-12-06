@@ -28,6 +28,7 @@ tide_dict = {}
 # ~~~~~~~~~~~ BEGIN USER INPUT ~~~~~~~~~~~
 profile_dict['names'] 		= ['Reach1', 'Reach3']				#name of reaches specified as string (e.g. 'Reach1', 'Reach3', ...)
 profile_dict['height_dune'] 	= [[10, 12], [9.9, 10.5]]  			#dune height (ft.)
+profile_dict['height_dune'] 	= [[10], [9.9]]  			#dune height (ft.)
 profile_dict['width_dune'] 	= [[10] , [12, 13]]				#dune width (ft.)
 profile_dict['width_berm'] 	= [[100, 150], [120]]				#berm width (ft.)
 profile_dict['width_upland'] 	= [200, 220]					#upland width (ft.)
@@ -39,10 +40,11 @@ profile_dict['d50']	        = [0.3, 0.4]					#d_50 (mm.)
 
 
 cshore_dict['dx'] 	= 1				#CSHORE grid spacing (m)
+cshore_dict['dx'] 	= 2				#CSHORE grid spacing (m)
 cshore_dict['gamma'] 	= 0.7			        #shallow water ratio of wave height to water depth 
 cshore_dict['effb']	= 0.002				#suspension efficiency due to breaking eB
 
-tide_dict['amp'] 	= [.15]				#tidal amplitude (m.)
+tide_dict['amp'] 	= [.5]				#tidal amplitude (m.)
 tide_dict['T'] 	= 12.5					#tidal period (hrs.); typically 12.5 for semi-diurnal
 tide_dict['phases'] 	= [1]		 	        #tidal phase; 1=high, 2=mid-falling, 3=low, 4=mid-rising
 # ~~~~~~~~~~~ END USER INPUT ~~~~~~~~~~~

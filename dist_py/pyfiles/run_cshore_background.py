@@ -11,21 +11,21 @@ csio = cshoreIO()
 class run_cshore_background(object):
 	def __init__(self):
 
-		self.runcshore_var = {}							#a placeholder.
+		self.runcshore_var = {}					#a placeholder.
 
 	def init(self, meta_dict, reach):
-		self.meta_dict = meta_dict						#setting up meta-dict
+		self.meta_dict = meta_dict				#setting up meta-dict
 		self.make_h5file(reach)					#creating an output h5 file to write to (for each storm)
-		self.run_cshore_win_serial(reach)				#runs cshore on windows in serial. user can add other options if desired (see below)
-		self.delete_output_files()						#deletes the cshore output files
-		self.close_h5file()								#closes the h5 file
+		self.run_cshore_win_serial(reach)			#runs cshore on windows in serial. user can add other options if desired (see below)
+		self.delete_output_files()				#deletes the cshore output files
+		self.close_h5file()					#closes the h5 file
 
 	def make_h5file(self, reach):
-		temp_path = os.getcwd()							#current directory (i.e. where infiles are)
-		os.chdir(self.meta_dict['outfile_directory_reach'])									#moves up a directory (to read storm names)
-		self.h5filename = reach + '.h5'	#sets h5 filename
-		self.h5file = h5py.File(self.h5filename, 'w')	#creates h5 filename
-		os.chdir(temp_path)								#back to the directory with infiles
+		temp_path = os.getcwd()					#current directory (i.e. where infiles are)
+		os.chdir(self.meta_dict['outfile_directory_reach'])	#moves up a directory (to read storm names)
+		self.h5filename = reach + '.h5'	                        #sets h5 filename
+		self.h5file = h5py.File(self.h5filename, 'w')	        #creates h5 filename
+		os.chdir(temp_path)					#back to the directory with infiles
 
 	def write_h5file(self, infile_name, morpho, hydro):
 		"""
@@ -40,7 +40,9 @@ class run_cshore_background(object):
 		fin_data = np.column_stack((np.array(morpho['x'][-1])/.3048, np.array(morpho['zb'][-1])/.3048))		#creating dataset and converting to feet. 
 		max_data, min_data = self.max_min_dictionary(morpho, 'zb')		#max and min value across all time steps at each spacing step. 
 		max_hydro, _ = self.max_min_dictionary(hydro, 'mwl')
-		max_wave, _ = self.max_min_dictionary(hydro, 'Hs')
+                max_wave, _ = self.max_min_dictionary(hydro, 'Hs')
+                #print(max_wave[0:690])
+                #exit()
 
 		max_data = max_data/.3048			#max profile elevation (ft.)
 		min_data = min_data/.3048			#min profile elevation (ft.)
@@ -69,25 +71,24 @@ class run_cshore_background(object):
 		this function reads at each space step (x1, x2, ..., xn) the smallest and largest
 			values across all time steps.  
 		"""
-		max_values = []														#setting up empty storage arrays
+		max_values = []							     #setting up empty storage arrays
 		min_values = []
-		x_values = data['x'][0]												#x-values of data
-		x_lengths = [len(data['x'][i]) for i in range(len(data['x']))]		#finding the length of each x-array at consecutive time steps (this varies across time)
-		max_ind = x_lengths.index(max(x_lengths))							#index of where x-array is longest
-		for i in range(max(x_lengths)):										#loop through longest x-array. e.g. starts at x=0, goes to landward most point across time, x=n
-			temp = []														#empty temporary array
-			for j in range(len(data[key])):									#loop through time steps (t=0 -> t=n)
-				if i < len(data[key][j]):									#if there is some data at the "i"th space step and "j"th time step
+		x_values = data['x'][0]						     #x-values of data
+		x_lengths = [len(data['x'][i]) for i in range(len(data['x']))]	    #finding the length of each x-array at consecutive time steps (this varies across time)
+		max_ind = x_lengths.index(max(x_lengths))			    #index of where x-array is longest
+		for i in range(max(x_lengths)):			  #loop through longest x-array. e.g. starts at x=0, goes to landward most point across time, x=n
+			temp = []						   #empty temporary array
+			for j in range(len(data[key])):				   #loop through time steps (t=0 -> t=n)
+				if i < len(data[key][j]):			   #if there is some data at the "i"th space step and "j"th time step
 					temp.append(data[key][j][i])							#	append the data there
 				else:														#else
 					temp.append(np.nan)						      		#	append an nan value
                                         #note that temp is an array of all of the elevations across time at the "i"th space
-			max_values.append(np.nanmax(temp))								#finds the max value (excluding nan's) of temp
-			min_values.append(np.nanmin(temp))								#	same as above except minimum values
-		max_values = np.column_stack((np.array(data['x'][max_ind]), np.array(max_values)))	#stacking the x-values and "z"-values of the maximum arrays
-		min_values = np.column_stack((np.array(data['x'][max_ind]), np.array(min_values)))	#	same as above except minimum values
-
-		return max_values, min_values										#note that this function is confusing, and tough to explain. 
+			max_values.append(np.nanmax(temp))		       #finds the max value (excluding nan's) of temp
+			min_values.append(np.nanmin(temp))					      #	same as above except minimum values
+		max_values = np.column_stack((np.array(data['x'][max_ind]), np.array(max_values)))    #stacking the x-values and "z"-values of the maximum arrays
+		min_values = np.column_stack((np.array(data['x'][max_ind]), np.array(min_values)))    #	same as above except minimum values
+		return max_values, min_values							    #note that this function is confusing, and tough to explain. 
 
 
 	def run_cshore_win_serial(self, reach):
@@ -103,7 +104,7 @@ class run_cshore_background(object):
 		infiles = sorted([f for f in infiles if f.endswith('.infile')])		#sorting the files that end with ".infile"
 
 		for infile in infiles:												#loop through infiles
-			os.rename(infile, 'infile')						       		#rename the file we're working with here to "infile"
+			os.rename(infile, 'infile')						#rename the file we're working with here to "infile"
 
 			if ilinux:
 				os.system(os.path.join(self.meta_dict['exe_directory'], 'CSHORE_USACE_LINUX.out'))	#call on cshore

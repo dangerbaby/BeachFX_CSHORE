@@ -9,8 +9,7 @@ if iclean ;[j1,j1,j1]=rmdir('./work/infiles','s');clear j1 iclean;end
 inp.names       = {'Reach1' 'Reach3'}; 
 inp.height_dune = {{10 12} num2cell(9.9:.02:10.5)}; %[ft]
 inp.height_dune = {{10 12} {9.9 10.5}}; %[ft]
-                                        
-%inp.height_dune = {{10 12} {9.9}}; %[ft]
+inp.height_dune = {{10} {9.9}}; %[ft]
 inp.width_dune  = {10 {12 13}}; %[ft]
 inp.width_berm  = {{100 150} 120}; %[ft]
 inp.width_upland  = {200 220}; %[ft]

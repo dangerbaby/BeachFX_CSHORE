@@ -18,7 +18,7 @@ class output_to_DAT_background(object):
 			ret = np.array(ret)
 		return ret
 	
-	def reverse_l_r(self, x_value, z_value):
+	def reverse_l_r(self, x_value, z_value,xoffset):
 		"""
 		reverses the order of arrays.
 			beach-fx: seaward positive
@@ -28,8 +28,9 @@ class output_to_DAT_background(object):
 		diff_temp = np.diff(x_value)
 		diff_reverse = diff_temp[::-1]
 		temp = np.cumsum(diff_reverse)
-		x_value = np.insert(temp, 0,0)
-		
+		#x_value = np.insert(temp, 0,0)
+		x_value = xoffset-x_value[::-1]
+                
 		#~~~ z-values ~~~
 		z_value = z_value[::-1]
 		
@@ -45,18 +46,18 @@ class output_to_DAT_background(object):
 
 		for i in dataset_names:									#loop through each profile/storm combination
 			init_profile = self.h5reader3(h5_filename, i, 'Initial Profile')	#reading the datafrom the h5file
-			fin_profile = self.h5reader3(h5_filename, i, 'Final Profile')
+                        fin_profile = self.h5reader3(h5_filename, i, 'Final Profile')
 			max_profile = self.h5reader3(h5_filename, i, 'Max Prof Elev')
 			min_profile = self.h5reader3(h5_filename, i, 'Min Prof Elev')
 			max_wav = self.h5reader3(h5_filename, i, 'Max Wave Ht')
-			max_elv = self.h5reader3(h5_filename, i, 'Max Water Elev+Setup')
+                        max_elv = self.h5reader3(h5_filename, i, 'Max Water Elev+Setup')
 
-			init_profile[:,0], init_profile[:,1] = self.reverse_l_r(init_profile[:,0], init_profile[:,1])	#swithcing from cshore orientation to beach-fx orientation (seaward positive)
-			fin_profile[:,0], fin_profile[:,1] = self.reverse_l_r(fin_profile[:,0], fin_profile[:,1])
-			max_profile[:,0], max_profile[:,1] = self.reverse_l_r(max_profile[:,0], max_profile[:,1])
-			min_profile[:,0], min_profile[:,1] = self.reverse_l_r(min_profile[:,0], min_profile[:,1])
-			max_wav[:,0], max_wav[:,1] = self.reverse_l_r(max_wav[:,0], max_wav[:,1])
-			max_elv[:,0], max_elv[:,1] = self.reverse_l_r(max_elv[:,0], max_elv[:,1])
+			init_profile[:,0], init_profile[:,1] = self.reverse_l_r(init_profile[:,0], init_profile[:,1],init_profile[-1,0]) #swithcing from cshore orientation to beach-fx orientation (seaward positive)
+			fin_profile[:,0], fin_profile[:,1] = self.reverse_l_r(fin_profile[:,0], fin_profile[:,1],init_profile[-1,0])
+			max_profile[:,0], max_profile[:,1] = self.reverse_l_r(max_profile[:,0], max_profile[:,1],init_profile[-1,0])
+			min_profile[:,0], min_profile[:,1] = self.reverse_l_r(min_profile[:,0], min_profile[:,1],init_profile[-1,0])
+			max_wav[:,0], max_wav[:,1] = self.reverse_l_r(max_wav[:,0], max_wav[:,1],init_profile[-1,0])
+			max_elv[:,0], max_elv[:,1] = self.reverse_l_r(max_elv[:,0], max_elv[:,1],init_profile[-1,0])
 
 			profile = i.split('-')[0]								#reading profile name
 			storm = i.split('-')[1]									#reading storm name
@@ -64,32 +65,32 @@ class output_to_DAT_background(object):
 			thefile.write('Initial Profile: %s, %s' %(profile, storm))	#writing to dat file
 			thefile.write('\n%s\n' %len(init_profile[:,0]))
 			for i, _ in enumerate(init_profile):
-				thefile.write('%11.4f %11.4f\n' %(init_profile[i, 0], init_profile[i, 1]))
+				thefile.write('%8.4f %8.4f\n' %(init_profile[i, 0], init_profile[i, 1]))
 			
 			thefile.write('Final Profile: %s, %s\n' %(profile, storm))
 			thefile.write('%s\n' %len(fin_profile[:,0]))
 			for i, _ in enumerate(fin_profile):
-				thefile.write('%11.4f %11.4f\n' %(fin_profile[i, 0], fin_profile[i, 1]))
+				thefile.write('%8.4f %8.4f\n' %(fin_profile[i, 0], fin_profile[i, 1]))
 
 			thefile.write('Max Prof Elev: %s, %s\n' %(profile, storm))
 			thefile.write('%s\n' %len(max_profile))
 			for i, _ in enumerate(max_profile):
-				thefile.write('%11.4f %11.4f\n' %(max_profile[i, 0], max_profile[i, 1]))
+				thefile.write('%8.4f %8.4f\n' %(max_profile[i, 0], max_profile[i, 1]))
 
 			thefile.write('Min Prof Elev: %s, %s\n' %(profile, storm))
 			thefile.write('%s\n' %len(min_profile))
 			for i, _ in enumerate(min_profile):
-				thefile.write('%11.4f %11.4f\n' %(min_profile[i, 0], min_profile[i, 1]))
+				thefile.write('%8.4f %8.4f\n' %(min_profile[i, 0], min_profile[i, 1]))
 			
 			thefile.write('Max Wave Ht: %s, %s\n' %(profile, storm))
 			thefile.write('%s\n' %len(max_wav))
 			for i, _ in enumerate(max_wav):
-				thefile.write('%11.4f %11.4f\n' %(max_wav[i, 0], max_wav[i, 1]))
+				thefile.write('%8.4f %8.4f\n' %(max_wav[i, 0], max_wav[i, 1]))
 
 			thefile.write('Max Water Elev+Setup: %s, %s\n' %(profile, storm))
 			thefile.write('%s\n' %len(max_elv))
 			for i, _ in enumerate(max_elv):
-				thefile.write('%11.4f %11.4f\n' %(max_elv[i, 0], max_elv[i, 1]))
+				thefile.write('%8.4f %8.4f\n' %(max_elv[i, 0], max_elv[i, 1]))
 
 
 		thefile.close()
