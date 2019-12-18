@@ -1,5 +1,6 @@
 % after make_cshore_infiles, run all infiles found in the infiles directory
 
+addpath 'mfiles' 
 iclean = 1; % iclean = 1 to remove all existing resultrs in outfile directory   
 if iclean ;[j1,j1,j1]=rmdir('./work/outfiles','s');clear j1 iclean;end
 dirnames = dir('./work/infiles');

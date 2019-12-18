@@ -2,11 +2,11 @@
 clear all
 
 tic;
-if exist('from_hpc.tgz','file')==2
-  disp('untaring HPC results')
-  untar('from_hpc.tgz')
-  movefile('from_hpc.tgz','from_hpc.tgz.used')
-end
+% if exist('from_hpc.tgz','file')==2
+%   disp('untaring HPC results')
+%   untar('from_hpc.tgz')
+%   movefile('from_hpc.tgz','from_hpc.tgz.used')
+% end
 
 dirnames = dir('./work/outfiles');
 for i = 3:length(dirnames)

@@ -8,6 +8,8 @@ if [[ $HOSTNAME == *"onyx"* ]]; then
     module load gcc
 fi
 for d1 in work/infiles/* ; do
+    #make sure that reach output directory exists
+    mkdir -p work/outfiles/$(basename $d1) 
     echo crawling through "$d1", looking for infiles
     # First make the array of infile names
     infilenames=()
@@ -34,18 +36,19 @@ for d1 in work/infiles/* ; do
 	#tail --pid=${pids[-1]} -f /dev/null #this waits until the last PID is completed
 	unset pids
     done
-done
-
-sleep 1
-#make sure that work/outfiles exists
-mkdir -p work/outfiles
-for d1 in work/infiles/* ; do
-    #make sure that reach directory exists
-    mkdir -p work/outfiles/$(basename $d1) 
-    cp $d1/*.OBPROF work/outfiles/$(basename $d1)
-    cp $d1/*.OSETUP work/outfiles/$(basename $d1)
+    # make h5 file here
+    # python make_h5_file.py $(basename $d1)
+    python make_reach_dat_file.py $(basename $d1)
+    
+    # cp $d1/*.OBPROF work/outfiles/$(basename $d1)
+    # cp $d1/*.OSETUP work/outfiles/$(basename $d1)
     rm $d1/*.O*
 done
+# now make the dat file
+# python make_dat_file.py
+
+#sleep 1
+
 tar -czf from_hpc.tgz work/outfiles 
 duration=$(( SECONDS - start ))
 echo $duration seconds runtime 

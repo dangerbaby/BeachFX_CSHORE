@@ -1,4 +1,4 @@
-import os
+mport os
 import numpy as np
 import h5py
 import platform
@@ -49,7 +49,7 @@ class run_cshore_background(object):
 		max_hydro = max_hydro/.3048			#max storm surge elevation (ft.)
 		max_wave = max_wave/.3048			#max wave conditions (ft.)
 
-		dset_init_profile = Profile_storm.create_dataset('Initial Profile', data = init_data)		#writing results to h5file
+ 		dset_init_profile = Profile_storm.create_dataset('Initial Profile', data = init_data)		#writing results to h5file
 		dset_fin_profile = Profile_storm.create_dataset('Final Profile', data = fin_data)
 		dset_max_profile = Profile_storm.create_dataset('Max Prof Elev', data = max_data)
 		dset_min_profile = Profile_storm.create_dataset('Min Prof Elev', data = min_data)

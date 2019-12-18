@@ -584,11 +584,14 @@ class cshoreIO(object):
 
 		self.OBPROF_row_counter = tot[0].split()[1]
 
+                #print self.OBPROF_row_counter
+
 		for ii in range(0, len(self.readIF_dict['time_offshore'])):
+                        
 			self.OBPROF_dict['morph%s' % str(ii + 1)] = {}
 			# row1 = tot[(self.ODOC_dict['nbinp'] + 1) * ii]
 			row1 = tot[(int(self.OBPROF_row_counter)+1)*ii]
-
+                        #print row1
 			if len(row1.split()) == 3:
 				N = int(row1.split()[1])
 				tme = float(row1.split()[2])
@@ -638,7 +641,7 @@ class cshoreIO(object):
 				self.OBPROF_dict['morph%s' % str(ii + 1)]['x'] = x
 				self.OBPROF_dict['morph%s' % str(ii + 1)]['zb'] = zb
 				self.OBPROF_dict['morph%s' % str(ii + 1)]['time'] = tme
-
+                        
 	def read_CSHORE_OSETUP(self, path):
 		"""
 

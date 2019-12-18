@@ -1,7 +1,7 @@
 
 The hpc addition is designed to permit parallel CSHORE runs on the
-HPC.  The workflow includes local creation of infiles, execution of
-CSHORE on the HPC, and then local postprossesing.
+HPC.  The workflow includes local creation of infiles and then
+execution of CSHORE on the HPC.
 
 1)Edit the PBS script entitiled submit_script_onyx.pbs.  An estimate
 of the maximum expected time required to run you batch of CSHORE runs
@@ -38,9 +38,13 @@ the run and from_hpc.tgz is created.  Copy from_hpc.tgz back to the
 local machine being certian that the from_hpc.tgz is in the same
 directory as the to_hpc.tgz file
 
-4) Execute make_dat file: All CSHORE results are discovered and a
-separate dat file designed for use with BeachFX is created for each
-reach.
+Untar and unzip the from_hpc.tgz file, where the command is dependent
+on the local operating system.  In linux, for instance
+
+user@locallinux$ tar -zxvf from_hpc.tgz	       
+
+A separate dat file designed for use with BeachFX is created within
+work/outfiles for each reach.
 
 
 
