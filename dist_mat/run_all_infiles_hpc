@@ -10,10 +10,13 @@ fi
 for d1 in work/infiles/* ; do
     #make sure that reach output directory exists
     mkdir -p work/outfiles/$(basename $d1) 
-    echo crawling through "$d1", looking for infiles
+    now=$(date)
+    echo DATE:$now Crawling through "$d1", looking for infiles
     # First make the array of infile names
     infilenames=()
-    for file in $d1/*.infile; do
+    #for file in $d1/*.infile; do
+    for file in $(find $d1 -name \*.infile); do
+	echo Adding $file to queue  
 	infilenames=("${infilenames[@]}" "$file")
     done
     # Set number of infiles avail in the directory
@@ -24,11 +27,12 @@ for d1 in work/infiles/* ; do
 	#for ((j=i; j<=((i+numproc-1)); j+=1)); do
 	for ((j=i; j<=(( i+numproc-1 < numinfiles-1 ? i+numproc-1 : numinfiles-1 )); j+=1)); do
 	    ./executables/CSHORE_USACE_LINUX.out ${infilenames[$j]%.infile}>/dev/null&
-	    echo $j just ran ${infilenames[$j]%.infile} with PID $!
+	    echo $j just started ${infilenames[$j]%.infile} with PID $!
 	    pids=("${pids[@]}" $!)
 	done
 	#echo all pids ${pids[@]} pids with last pid ${pids[-1]} 
-	echo Waiting for the batch of ${#pids[@]} infiles to run
+	now=$(date)
+	echo DATE:$now Waiting for batch of ${#pids[@]} infiles to run
 	for pdum in ${pids[@]}; do
 	    tail --pid=$pdum -f /dev/null #this waits until the PID is completed	
 	done
@@ -38,11 +42,13 @@ for d1 in work/infiles/* ; do
     done
     # make h5 file here
     # python make_h5_file.py $(basename $d1)
+    now=$(date)
+    echo DATE:$now Making a dat file for $d1
     python make_reach_dat_file.py $(basename $d1)
     
     # cp $d1/*.OBPROF work/outfiles/$(basename $d1)
     # cp $d1/*.OSETUP work/outfiles/$(basename $d1)
-    rm $d1/*.O*
+    #rm $d1/*.O*
 done
 # now make the dat file
 # python make_dat_file.py
