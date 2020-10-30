@@ -11,8 +11,9 @@ def read_CSHORE_results(fn):
     zball = []
     ii = 0
     rowind = 0
+    wehavenan = False
     #N = 0
-    while rowind<len(tot):
+    while rowind<len(tot) and wehavenan==False:
         ii = ii+1
         row1 = tot[rowind]
         #print ii,row1
@@ -32,12 +33,16 @@ def read_CSHORE_results(fn):
             for ss in range(0, N):
 	        x[ss] = float(dum[ss].split()[0])
 	        zb[ss] = float(dum[ss].split()[1])
-            if ii==1:
-                zball = np.transpose(zb)
-                #print N,np.shape(zball)
-                #print zball
+            wehavenan = any(np.isnan(zb))
+            if wehavenan==True:
+                print('Nan has occured')
             else:
-                zball = np.vstack((zball,np.transpose(zb)))
+                if ii==1:
+                    zball = np.transpose(zb)
+                    #print N,np.shape(zball)
+                    #print zball
+                else:
+                    zball = np.vstack((zball,np.transpose(zb)))
     results = {'x_morpho':x}
     #results['time_morpho']      = timeall
     results['initial_profile']  = zball[0]
@@ -54,7 +59,8 @@ def read_CSHORE_results(fn):
     timeall = []
     ii = 0
     rowind = 0
-    while rowind<len(tot):
+    wehavenan = False
+    while rowind<len(tot) and wehavenan==False:
         ii = ii+1
         row1 = tot[rowind]
         #print ii,row1
@@ -73,14 +79,18 @@ def read_CSHORE_results(fn):
             for ss in range(0, N):
 	        setup[ss] = float(dum[ss].split()[1])
                 hrms[ss] = np.sqrt(8)*float(dum[ss].split()[3])
-            if ii==1:
-                setupall = np.transpose(setup)
-                hrmsall = np.transpose(hrms)
-                #print N,np.shape(setupall)
-                #print setupall
+            wehavenan = any(np.isnan(setup))
+            if wehavenan==True:
+                print('Nan has occured')
             else:
-                setupall = np.vstack((setupall,np.transpose(setup)))
-                hrmsall = np.vstack((hrmsall,np.transpose(hrms)))
+                if ii==1:
+                    setupall = np.transpose(setup)
+                    hrmsall = np.transpose(hrms)
+                    #print N,np.shape(setupall)
+                    #print setupall
+                else:
+                    setupall = np.vstack((setupall,np.transpose(setup)))
+                    hrmsall = np.vstack((hrmsall,np.transpose(hrms)))
 
     #results['time_hydro'] = timeall
     maxsetup = np.amax(setupall,axis=0)
