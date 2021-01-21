@@ -10,3 +10,5 @@ to_hpc.tgz
 from_hpc.tgz
 from_hpc.tgz.used
 outfiles
+work_*
+dng*
