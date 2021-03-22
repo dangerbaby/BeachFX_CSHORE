@@ -12,15 +12,22 @@ for i = 3:length(dirnames)
   for j = 1:1:length(fnames)
     disp(['working on /',dirnames(i).name,'/',fnames(j).name])
     copyfile(['./work/infiles/',dirnames(i).name,'/',fnames(j).name],'temp.infile');
-    load(['./work/infiles/',dirnames(i).name,'/',fnames(j).name(1:end-7),'.mat']);
-
     if isunix
       system('./executables/CSHORE_USACE_LINUX.out temp');
     else
       system('.\executables\cshore_usace_win.out temp');
     end
     results = load_results_bfx('temp');
-    save(['./work/outfiles/',dirnames(i).name,'/',fnames(j).name(1:end-7),'.mat'],'results','in')
+    % matfilename= ['./work/infiles/',dirnames(i).name,'/',fnames(j).name(1:end-7),'.mat'];
+    % if exist(matfilename,'file')
+    %   load(matfilename);
+    % else
+    %   in.x_offset = results.x(end);
+    % end
+
+    
+    %save(['./work/outfiles/',dirnames(i).name,'/',fnames(j).name(1:end-7),'.mat'],'results','in')
+    save(['./work/outfiles/',dirnames(i).name,'/',fnames(j).name(1:end-7),'.mat'],'results')
     delete temp*
   end
 end

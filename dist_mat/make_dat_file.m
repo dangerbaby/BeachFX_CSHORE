@@ -27,8 +27,10 @@ for i = 3:length(dirnames)
   for j = 1:1:length(fnames)
     disp(['working on /',dirnames(i).name,'/',fnames(j).name])
     load(['./work/outfiles/',dirnames(i).name,'/',fnames(j).name]);
-
+    %disp(['in.x_offset, = ',num2str(in.x_offset)])
     %write Initial Profile
+    in.x_offset = results.x(end);
+    in.magic_text = strrep(fnames(j).name(1:end-4),'-',', ');
     x = m2ft(flipud((in.x_offset-results.x)));
     x_off2 = x(1); % in ft so that we have 0 at first node!
     x = x-x_off2;
@@ -58,7 +60,8 @@ for i = 3:length(dirnames)
     %write max Hs
     ind = ~isnan(results.max_hrms);
     Hs=sqrt(2)*m2ft(flipud(results.max_hrms(ind)));
-    x = m2ft(flipud((in.x_offset-in.x(ind))'));
+    %x = m2ft(flipud((in.x_offset-in.x(ind))'));
+    x = m2ft(flipud((in.x_offset-results.x(ind))));
     x = x-x_off2;
     fprintf(fid,'Max Wave Ht: %s\n',in.magic_text); 
     fprintf(fid,'%d\n',length(Hs));
