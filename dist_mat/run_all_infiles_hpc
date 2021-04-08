@@ -44,7 +44,8 @@ for d1 in work/infiles/* ; do
     # python make_h5_file.py $(basename $d1)
     now=$(date)
     echo DATE:$now Making a dat file for $d1
-    python make_reach_dat_file.py $(basename $d1)
+    #python make_reach_dat_file.py $(basename $d1) # to run the dat creation in serial 
+    python make_reach_dat_file.py $(basename $d1)& # to run the dat creation in the background
     
     # cp $d1/*.OBPROF work/outfiles/$(basename $d1)
     # cp $d1/*.OSETUP work/outfiles/$(basename $d1)
